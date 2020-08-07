@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Actions;
 
 use App\Actions\ApplyLoan;
 use App\Loan;
@@ -13,7 +13,7 @@ use Money\Money;
 use Spatie\TestTime\TestTime;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+class ApplyLoanTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -68,4 +68,28 @@ class ApplyLoanTest extends TestCase
         $this->assertSame($termEndedAt->toDatetimeString(), $loan->term_ended_at->toDatetimeString());
         $this->assertSame('I need a loan to repay my debt', $loan->description);
     }
+
+    /** @test */
+    public function user_can_apply_more_than_one_loan()
+    {
+        $user = \factory(User::class)->create();
+        $firstLoan = \factory(Loan::class)->create([
+            'user_id' => $user->getKey(),
+        ]);
+
+        $termEndedAt = Carbon::now()->addDays(30);
+        $total = Money::SGD(450000);
+
+        $secondLoan = \app(ApplyLoan::class)(
+            $user,
+            'I need a loan to repay my debt',
+            $total,
+            $termEndedAt
+        );
+
+        $this->assertSame(2, $user->loans->count());
+
+        $this->assertTrue($user->loans[0]->is($firstLoan));
+        $this->assertTrue($user->loans[1]->is($secondLoan));
+    }
 }

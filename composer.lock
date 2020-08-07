@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "22c16a4fa54f92b1abb33f4e6ca97bf9",
+    "content-hash": "25ef53797f88c1760ada5c96aff285af",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6631,6 +6631,69 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
+        },
+        {
+            "name": "spatie/test-time",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/test-time.git",
+                "reference": "c039c69b839de02b256563a24bdb19c8871114ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/test-time/zipball/c039c69b839de02b256563a24bdb19c8871114ce",
+                "reference": "c039c69b839de02b256563a24bdb19c8871114ce",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "^2.19",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.2|^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\TestTime\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alex Vanderbist",
+                    "email": "alex@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A small package to control the flow time",
+            "homepage": "https://github.com/spatie/test-time",
+            "keywords": [
+                "spatie",
+                "test-time"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/spatie",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-07-16T12:12:07+00:00"
         },
         {
             "name": "symfony/yaml",

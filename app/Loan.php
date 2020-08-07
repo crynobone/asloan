@@ -27,4 +27,14 @@ class Loan extends Model
         'term_ended_at' => 'datetime',
         'completed_at' => 'datetime',
     ];
+
+    /**
+     * Loan belongs to a User (customer).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

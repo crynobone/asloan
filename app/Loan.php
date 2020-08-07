@@ -20,6 +20,8 @@ class Loan extends Model
      */
     protected $casts = [
         'repayment_interval' => 'int',
+        'price' => Casts\Money::class.':amount,currency',
+        'due_price' => Casts\Money::class.':due_amount,currency',
         'due_at' => 'datetime',
         'term_started_at' => 'datetime',
         'term_ended_at' => 'datetime',

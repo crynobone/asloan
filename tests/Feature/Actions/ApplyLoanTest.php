@@ -70,6 +70,27 @@ class ApplyLoanTest extends TestCase
     }
 
     /** @test */
+    public function user_cant_apply_a_loan_that_starts_after_term_ended()
+    {
+        $this->expectException('Illuminate\Validation\ValidationException');
+
+        TestTime::freeze();
+        $user = \factory(User::class)->create();
+
+        $termStartedAt = Carbon::now()->addDay(40);
+        $termEndedAt = Carbon::now()->addDays(30);
+        $total = Money::SGD(450000);
+
+        $loan = \app(ApplyLoan::class)(
+            $user,
+            'I need a loan to repay my debt',
+            $total,
+            $termEndedAt,
+            $termStartedAt
+        );
+    }
+
+    /** @test */
     public function user_can_apply_more_than_one_loan()
     {
         $user = \factory(User::class)->create();

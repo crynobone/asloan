@@ -6,6 +6,7 @@ use App\Loan;
 use App\User;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use Illuminate\Validation\ValidationException;
 use Money\Money;
 
 class ApplyLoan
@@ -23,6 +24,12 @@ class ApplyLoan
     ): Loan {
         if (\is_null($termStartedAt)) {
             $termStartedAt = Carbon::now();
+        }
+
+        if ($termEndedAt->lessThanOrEqualTo($termStartedAt)) {
+            throw ValidationException::withMessages([
+                'termStartedAt' => ['Term start date should be less than term end date'],
+            ]);
         }
 
         $loan = (new Loan())->forceFill(\array_filter([

@@ -19,7 +19,7 @@ class Repayment extends Model
      * @var array
      */
     protected $casts = [
-        'price' => Casts\Money::class.':amount,currency',
+        'total' => Casts\Money::class.':amount,currency',
         'occured_at' => 'datetime',
     ];
 

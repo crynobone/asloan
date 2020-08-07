@@ -20,7 +20,7 @@ class MoneyTest extends TestCase
             'currency' => 'SGD',
         ]);
 
-        $money = $repayment->price;
+        $money = $repayment->total;
 
         $this->assertInstanceOf(Money::class, $money);
         $this->assertSame(3500, (int) $money->getAmount());
@@ -35,7 +35,7 @@ class MoneyTest extends TestCase
             'currency' => 'SGD',
         ]);
 
-        $repayment->price = Money::USD(4000);
+        $repayment->total = Money::USD(4000);
 
         $this->assertSame(4000, $repayment->amount);
         $this->assertSame('USD', $repayment->currency);

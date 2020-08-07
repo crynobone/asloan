@@ -18,7 +18,7 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function user_can_apply_a_loan_that_starts_tomorrow()
+    public function user_can_apply_a_loan()
     {
         TestTime::freeze();
         $user = \factory(User::class)->create();
@@ -43,7 +43,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function user_can_apply_a_loan()
+    public function user_can_apply_a_loan_that_starts_tomorrow()
     {
         TestTime::freeze();
         $user = \factory(User::class)->create();

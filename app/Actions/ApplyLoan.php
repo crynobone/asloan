@@ -26,11 +26,8 @@ class ApplyLoan
             $termStartedAt = Carbon::now();
         }
 
-        if ($termEndedAt->lessThanOrEqualTo($termStartedAt)) {
-            throw ValidationException::withMessages([
-                'termStartedAt' => ['Term start date should be less than term end date'],
-            ]);
-        }
+        $this->validateTermPeriod($termStartedAt, $termEndedAt);
+        $this->validateAmount($total);
 
         $loan = (new Loan())->forceFill(\array_filter([
             'user_id' => $user->getKey(),
@@ -44,5 +41,33 @@ class ApplyLoan
         $loan->saveOrFail();
 
         return $loan->setRelation('customer', $user);
+    }
+
+    /**
+     * Validate loan amount.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateAmount(Money $total): void
+    {
+        if ($total->isNegative() || $total->isZero()) {
+            throw ValidationException::withMessages([
+                'total' => ['Loan amount should be higher than 0'],
+            ]);
+        }
+    }
+
+    /**
+     * Validate term period.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateTermPeriod(CarbonInterface $termStartedAt, CarbonInterface $termEndedAt): void
+    {
+        if ($termEndedAt->lessThanOrEqualTo($termStartedAt)) {
+            throw ValidationException::withMessages([
+                'termStartedAt' => ['Term start date should be less than term end date'],
+            ]);
+        }
     }
 }

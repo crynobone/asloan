@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Validation\ValidationException;
 use Money\Currency;
 use Money\Money;
 use Spatie\TestTime\TestTime;
@@ -69,10 +70,41 @@ class ApplyLoanTest extends TestCase
         $this->assertSame('I need a loan to repay my debt', $loan->description);
     }
 
+    /**
+     * @test
+     * @dataProvider negativeOrZeroAmount
+     */
+    public function user_cant_apply_a_loan_with_negative_or_zero_amount($amount)
+    {
+        $this->withoutExceptionHandling();
+
+        TestTime::freeze();
+        $user = \factory(User::class)->create();
+
+        $termEndedAt = Carbon::now()->addDays(30);
+        $total = Money::SGD($amount);
+
+        try {
+            $loan = \app(ApplyLoan::class)(
+                $user,
+                'I need a loan to repay my debt',
+                $total,
+                $termEndedAt
+            );
+
+            $this->fail('The loan creation passes validation when it should have failed.');
+        } catch (ValidationException $e) {
+            $this->assertEquals(
+                'Loan amount should be higher than 0',
+                $e->validator->errors()->first('total')
+            );
+        }
+    }
+
     /** @test */
     public function user_cant_apply_a_loan_that_starts_after_term_ended()
     {
-        $this->expectException('Illuminate\Validation\ValidationException');
+        $this->withoutExceptionHandling();
 
         TestTime::freeze();
         $user = \factory(User::class)->create();
@@ -81,13 +113,22 @@ class ApplyLoanTest extends TestCase
         $termEndedAt = Carbon::now()->addDays(30);
         $total = Money::SGD(450000);
 
-        $loan = \app(ApplyLoan::class)(
-            $user,
-            'I need a loan to repay my debt',
-            $total,
-            $termEndedAt,
-            $termStartedAt
-        );
+        try {
+            $loan = \app(ApplyLoan::class)(
+                $user,
+                'I need a loan to repay my debt',
+                $total,
+                $termEndedAt,
+                $termStartedAt
+            );
+
+            $this->fail('The loan creation passes validation when it should have failed.');
+        } catch (ValidationException $e) {
+            $this->assertEquals(
+                'Term start date should be less than term end date',
+                $e->validator->errors()->first('termStartedAt')
+            );
+        }
     }
 
     /** @test */
@@ -112,5 +153,13 @@ class ApplyLoanTest extends TestCase
 
         $this->assertTrue($user->loans[0]->is($firstLoan));
         $this->assertTrue($user->loans[1]->is($secondLoan));
+    }
+
+    public function negativeOrZeroAmount()
+    {
+        yield [0];
+        yield [-100];
+        yield [-1000];
+        yield [-100000];
     }
 }

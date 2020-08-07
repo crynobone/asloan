@@ -25,11 +25,11 @@ class CreateLoansTable extends Migration
             $table->unsignedInteger('amount');
 
             $table->unsignedInteger('due_amount')->default(0);
-            $table->timestamp('due_at')->nullable();
+            $table->dateTime('due_at')->nullable();
 
-            $table->timestamp('term_started_at');
-            $table->timestamp('term_ended_at');
-            $table->timestamp('completed_at')->nullable();
+            $table->dateTime('term_started_at');
+            $table->dateTime('term_ended_at');
+            $table->dateTime('completed_at')->nullable();
 
             $table->timestamps();
         });

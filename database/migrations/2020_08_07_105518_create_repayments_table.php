@@ -22,7 +22,7 @@ class CreateRepaymentsTable extends Migration
             $table->string('currency')->default(\config('app.currency'));
             $table->unsignedInteger('amount');
 
-            $table->timestamp('occured_at');
+            $table->dateTime('occured_at');
         });
     }
 

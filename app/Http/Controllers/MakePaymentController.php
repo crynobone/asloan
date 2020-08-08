@@ -25,6 +25,13 @@ class MakePaymentController extends Controller
                 ->with('error', "Unable to make payment with other currency than {$loan->currency}");
         }
 
+        if ($loan->isCompleted()) {
+            return \redirect()
+                ->back()
+                ->with('error', "Unable to make payment against completed loan");
+        }
+
+
         $total = as_money($data['total'], $data['currency']);
 
         $loan->makePayment(

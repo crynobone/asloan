@@ -39,7 +39,7 @@
               {{ App\present_money($loan->due_total) }}
             </td>
             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-              @if (is_null($loan->completed_at))
+              @unless($loan->isCompleted())
               <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-yellow-100 text-yellow-800">
                 {{ $loan->due_at->format('jS \\of F Y') }}
               </span>
@@ -47,10 +47,10 @@
               <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-teal-100 text-teal-800">
                 Completed on {{ $loan->completed_at->format('jS \\of F Y') }}
               </span>
-              @endif
+              @endunless
             </td>
             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-              @if (is_null($loan->completed_at))
+              @unless($loan->isCompleted())
               <form method="POST" action="{{ route('make-payment', [$loan]) }}">
                 @csrf
                 <div class="flex justify-between items-center">
@@ -79,7 +79,7 @@
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                 @enderror
               </form>
-              @endif
+              @endunless
             </td>
           </tr>
           @endforeach

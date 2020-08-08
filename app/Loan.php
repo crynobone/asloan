@@ -65,6 +65,14 @@ class Loan extends Model
     }
 
     /**
+     * Check if loan has been competed.
+     */
+    public function isCompleted(): bool
+    {
+        return ! \is_null($this->completed_at);
+    }
+
+    /**
      * Get loan total.
      *
      * @return \Money\Money

@@ -1,6 +1,6 @@
 # AsLoan 
 
-![test](https://github.com/crynobone/asloan/workflows/test/badge.svg)
+[![test](https://github.com/crynobone/asloan/workflows/test/badge.svg)](https://github.com/crynobone/asloan/actions?query=workflow%3Atest)
 
 ## Installation
 

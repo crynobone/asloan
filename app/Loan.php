@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Money\Currency;
+use Money\Money;
 
 class Loan extends Model
 {
@@ -36,5 +38,39 @@ class Loan extends Model
     public function customer()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Loan has many repayments.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function repayments()
+    {
+        return $this->hasMany(Repayment::class, 'loan_id', 'id');
+    }
+
+    /**
+     * Get loan outstanding.
+     *
+     * @return \Money\Money
+     */
+    public function outstanding()
+    {
+        return $this->total->subtract($this->installment());
+    }
+
+    /**
+     * Get loan installment.
+     *
+     * @return \Money\Money
+     */
+    public function installment()
+    {
+        $amount = Repayment::where('loan_id', '=', $this->getKey())
+            ->toBase()
+            ->sum('amount');
+
+        return new Money($amount, new Currency($this->currency));
     }
 }

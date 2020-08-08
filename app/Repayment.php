@@ -29,4 +29,14 @@ class Repayment extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Repayment belongs to loan.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function loan()
+    {
+        return $this->belongsTo(Loan::class, 'loan_id', 'id');
+    }
 }

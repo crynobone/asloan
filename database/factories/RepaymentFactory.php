@@ -8,10 +8,13 @@ use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Repayment::class, function (Faker $faker) {
+    $now = Carbon::now();
+
     return [
         'loan_id' => factory(Loan::class),
+        'description' => 'Test repayment on '.$now->toDateString(),
         'currency' => 'SGD',
         'amount' => 4000,
-        'occured_at' => Carbon::now(),
+        'occured_at' => $now,
     ];
 });

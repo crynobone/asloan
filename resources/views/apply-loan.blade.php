@@ -52,7 +52,7 @@
                       $
                     </span>
                   </div>
-                  <input id="total" name="total" type="number" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 @error('total') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red @enderror" placeholder="0.00" aria-describedby="total-currency" value="{{ old('total') }}">
+                  <input id="total" name="total" type="number" step="0.01" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 @error('total') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red @enderror" placeholder="0.00" aria-describedby="total-currency" value="{{ old('total') }}">
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <span class="text-gray-500 sm:text-sm sm:leading-5" id="total-currency">
                       {{ $currency }}

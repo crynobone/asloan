@@ -50,12 +50,32 @@
               @endif
             </td>
             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+              @if (is_null($loan->completed_at))
               <form method="POST" action="{{ route('make-payment', [$loan]) }}">
                 @csrf
-                <input type="hidden" name="total" value="{{ App\present_money($loan->due_total, false) }}">
-                <input type="hidden" name="currency" value="{{ $loan->currency }}">
-                <button type="submit" class="text-indigo-600 hover:text-indigo-900">Make Payment</button>
+                <div class="flex justify-between items-center">
+                  <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span class="text-gray-500 sm:text-sm sm:leading-5">
+                        $
+                      </span>
+                    </div>
+                    <input id="total" type="number" step="0.01" name="total" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5" placeholder="0.00" aria-describedby="total-currency" value="{{ App\present_money($loan->due_total, false) }}">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <span class="text-gray-500 sm:text-sm sm:leading-5" id="total-currency">
+                        {{ $loan->currency }}
+                      </span>
+                      <input type="hidden" name="currency" value="{{ $loan->currency }}">
+                    </div>
+                  </div>
+                  <div class="ml-2">
+                    <span class="inline-flex rounded-md shadow-sm">
+                      <button type="submit" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200 transition ease-in-out duration-150">Pay</button>
+                    </span>
+                  </div>
+                </div>
               </form>
+              @endif
             </td>
           </tr>
           @endforeach

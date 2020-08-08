@@ -18,7 +18,7 @@ class CalculateDues
     /**
      * Calculate dues on a loan.
      */
-    public function __invoke(Loan $loan)
+    public function __invoke(Loan $loan): array
     {
         $weeks = $loan->term_started_at->diffInWeeks($loan->term_ended_at);
         $dueDay = $loan->term_ended_at->dayOfWeek;

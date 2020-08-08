@@ -51,9 +51,7 @@ class ApplyLoan
     protected function validateAmount(Money $total): void
     {
         if ($total->isNegative() || $total->isZero()) {
-            throw ValidationException::withMessages([
-                'total' => ['Loan amount should be higher than 0'],
-            ]);
+            throw ValidationException::withMessages(['total' => ['Loan amount should be higher than 0']]);
         }
     }
 
@@ -65,9 +63,7 @@ class ApplyLoan
     protected function validateTermPeriod(CarbonInterface $termStartedAt, CarbonInterface $termEndedAt): void
     {
         if ($termEndedAt->lessThanOrEqualTo($termStartedAt)) {
-            throw ValidationException::withMessages([
-                'termStartedAt' => ['Term start date should be less than term end date'],
-            ]);
+            throw ValidationException::withMessages(['termStartedAt' => ['Term start date should be less than term end date']]);
         }
     }
 }

@@ -6,7 +6,6 @@ use App\Loan;
 use App\Repayment;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Money\Money;
 use Spatie\TestTime\TestTime;
 use Tests\TestCase;
@@ -14,7 +13,6 @@ use Tests\TestCase;
 class LoanTest extends TestCase
 {
     use RefreshDatabase;
-
 
     /** @test */
     public function it_properly_set_dues()

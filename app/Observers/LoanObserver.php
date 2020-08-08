@@ -11,7 +11,6 @@ class LoanObserver
     /**
      * Handle the loan "creating" event.
      *
-     * @param  \App\Loan  $loan
      * @return void
      */
     public function creating(Loan $loan)
@@ -29,7 +28,6 @@ class LoanObserver
     /**
      * Handle the loan "updated" event.
      *
-     * @param  \App\Loan  $loan
      * @return void
      */
     public function updated(Loan $loan)
@@ -40,7 +38,6 @@ class LoanObserver
     /**
      * Handle the loan "deleted" event.
      *
-     * @param  \App\Loan  $loan
      * @return void
      */
     public function deleted(Loan $loan)
@@ -51,7 +48,6 @@ class LoanObserver
     /**
      * Handle the loan "restored" event.
      *
-     * @param  \App\Loan  $loan
      * @return void
      */
     public function restored(Loan $loan)
@@ -62,7 +58,6 @@ class LoanObserver
     /**
      * Handle the loan "force deleted" event.
      *
-     * @param  \App\Loan  $loan
      * @return void
      */
     public function forceDeleted(Loan $loan)

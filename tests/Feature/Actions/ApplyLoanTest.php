@@ -7,9 +7,7 @@ use App\Loan;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Validation\ValidationException;
-use Money\Currency;
 use Money\Money;
 use Spatie\TestTime\TestTime;
 use Tests\TestCase;
@@ -157,9 +155,9 @@ class ApplyLoanTest extends TestCase
 
     public function negativeOrZeroAmount()
     {
-        yield [0];
-        yield [-100];
-        yield [-1000];
-        yield [-100000];
+        yield '$0' => [0];
+        yield '$-1.00' => [-100];
+        yield '$-10.00' => [-1000];
+        yield '$-1000.00' => [-100000];
     }
 }

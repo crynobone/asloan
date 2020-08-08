@@ -28,6 +28,7 @@ class LoanApplicationRequest extends FormRequest
             'description' => ['required', 'min:10'],
             'total' => ['required', new Money()],
             'currency' => ['required'],
+            'term_ended_at' => ['required', 'date', 'after:tomorrow'],
         ];
     }
 }

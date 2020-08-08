@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoanApplicationRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use function App\as_money;
 
@@ -20,7 +21,7 @@ class SubmitLoanController extends Controller
         $loan = $request->user()->applyLoan(
             $data['description'],
             as_money($data['total'], $data['currency']),
-            today()->addWeeks(4)
+            Carbon::parse($data['term_ended_at'])
         );
 
         return redirect()->route('home');

@@ -66,6 +66,23 @@
                 @enderror
               </div>
             </div>
+
+            <div class="mt-6 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
+              <label for="term_ended_at" class="block text-sm leading-5 font-medium text-gray-700">
+                Loan Amount
+              </label>
+              <div class="mt-2 sm:mt-0 sm:col-span-2">
+                <div class="mt-1 relative rounded-md shadow-sm">
+                  <input id="term_ended_at" name="term_ended_at" type="date" class="form-input block w-full sm:text-sm sm:leading-5 @error('term_ended_at') border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red @enderror" placeholder="2 weeks" value="{{ old('term_ended_at') }}">
+                </div>
+
+                @error('term_ended_at')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+            </div>
+
+
           </div>
           <div class="mt-8 border-t border-gray-200 pt-5">
             <div class="flex justify-end">

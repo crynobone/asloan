@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Loan;
+use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function __invoke(Request $request)
     {
-        return view('home');
+        $loans = Loan::where('user_id', '=', $request->user()->id)->paginate();
+
+        return \view('home', \compact('loans'));
     }
 }

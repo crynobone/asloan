@@ -65,6 +65,16 @@ class Loan extends Model
     }
 
     /**
+     * Get loan total.
+     *
+     * @return \Money\Money
+     */
+    public function total()
+    {
+        return $this->total;
+    }
+
+    /**
      * Get loan outstanding.
      *
      * @return \Money\Money

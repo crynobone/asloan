@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,5 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::middleware('auth')
+    ->group(static function (Router $router) {
+        $router->get('/', 'HomeController')->name('home');
 
+        $router->get('apply-loan', 'ApplyLoanController')->name('apply-loan');
+        $router->post('apply-loan', 'SubmitLoanController')->name('submit-loan');
+    });

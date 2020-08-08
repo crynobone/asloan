@@ -2,25 +2,23 @@
 
 @section('content')
     <div class="flex items-center">
-        <div class="md:w-1/2 md:mx-auto">
+        <div class="container mx-auto">
 
-            @if (session('status'))
-                <div class="text-sm border border-t-8 rounded text-green-700 border-green-600 bg-green-100 px-3 py-4 mb-4" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
+            <x-flash-message />
 
             <div class="flex flex-col break-words bg-white border border-2 rounded shadow-md">
 
-                <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
-                    Dashboard
+                <div class="flex justify-between bg-gray-100 p-6 mb-0">
+                    <h2 class="flex-1 font-semibold text-2xl text-gray-700">Loans</h2>
+
+                    <span class="inline-flex rounded-md shadow-sm">
+                      <a href="{{ route('apply-loan') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+                        Apply Loan
+                      </a>
+                    </span>
                 </div>
 
-                <div class="w-full p-6">
-                    <p class="text-gray-700">
-                        You are logged in!
-                    </p>
-                </div>
+                <x-loans-table :loans="$loans"/>
             </div>
         </div>
     </div>

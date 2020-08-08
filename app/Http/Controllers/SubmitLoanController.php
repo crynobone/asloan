@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use function App\as_money;
 use App\Http\Requests\LoanApplicationRequest;
+use function App\present_money;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use function App\as_money;
-use function App\present_money;
 
 class SubmitLoanController extends Controller
 {

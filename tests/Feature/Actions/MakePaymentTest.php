@@ -7,7 +7,6 @@ use App\Loan;
 use App\Repayment;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Validation\ValidationException;
 use Money\Money;
 use Spatie\TestTime\TestTime;
@@ -103,18 +102,15 @@ class MakePaymentTest extends TestCase
 
         $payment = Money::USD(20000);
 
-        try {
+        $this->expectValidationException(function () use ($loan, $payment, $occuredAt) {
             $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment, $occuredAt);
-
-            $this->fail('The test passes validation when it should have failed.');
-        } catch (ValidationException $e) {
+        }, function (ValidationException $e) {
             $this->assertEquals(
                 'Unable to accept payment currency different from loan currency',
                 $e->validator->errors()->first('total')
             );
-        }
+        });
     }
-
 
     /** @test */
     public function user_cant_make_repayment_to_a_loan_higher_than_outstanding_amount()
@@ -130,15 +126,13 @@ class MakePaymentTest extends TestCase
 
         $payment = Money::SGD(120000);
 
-        try {
+        $this->expectValidationException(function () use ($loan, $payment, $occuredAt) {
             $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment, $occuredAt);
-
-            $this->fail('The test passes validation when it should have failed.');
-        } catch (ValidationException $e) {
+        }, function (ValidationException $e) {
             $this->assertEquals(
                 'Unable to accept payment amount higher than outstanding amount',
                 $e->validator->errors()->first('total')
             );
-        }
+        });
     }
 }

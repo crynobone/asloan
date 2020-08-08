@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use function App\as_money;
 use App\Http\Requests\MakePaymentRequest;
 use App\Loan;
-use Illuminate\Http\Request;
-use function App\as_money;
 use function App\present_money;
+use Illuminate\Http\Request;
 
 class MakePaymentController extends Controller
 {
@@ -28,7 +28,7 @@ class MakePaymentController extends Controller
         if ($loan->isCompleted()) {
             return \redirect()
                 ->back()
-                ->with('error', "Unable to make payment against completed loan");
+                ->with('error', 'Unable to make payment against completed loan');
         }
 
 

@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Actions\CalculateDues;
 use App\Loan;
 use Carbon\Carbon;
 

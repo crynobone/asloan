@@ -82,21 +82,19 @@ class ApplyLoanTest extends TestCase
         $termEndedAt = Carbon::now()->addDays(30);
         $total = Money::SGD($amount);
 
-        try {
+        $this->expectValidationException(function () use ($user, $total, $termEndedAt) {
             $loan = (new ApplyLoan())(
                 $user,
                 'I need a loan to repay my debt',
                 $total,
                 $termEndedAt
             );
-
-            $this->fail('The test passes validation when it should have failed.');
-        } catch (ValidationException $e) {
+        }, function (ValidationException $e) {
             $this->assertEquals(
                 'Loan amount should be higher than 0',
                 $e->validator->errors()->first('total')
             );
-        }
+        });
     }
 
     /** @test */

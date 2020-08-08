@@ -21,9 +21,13 @@ function as_money($amount, string $currency): Money
 /**
  * Present the money to user.
  */
-function present_money(Money $money): string
+function present_money(Money $money, bool $showCurrency = true): string
 {
     $formatter = new DecimalMoneyFormatter(new ISOCurrencies());
+
+    if ($showCurrency !== true) {
+        return $formatter->format($money);
+    }
 
     return \sprintf('%s %s', (string) $money->getCurrency(), $formatter->format($money));
 }

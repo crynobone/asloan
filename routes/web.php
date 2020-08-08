@@ -23,4 +23,5 @@ Route::middleware('auth')
 
         $router->get('apply-loan', 'ApplyLoanController')->name('apply-loan');
         $router->post('apply-loan', 'SubmitLoanController')->name('submit-loan');
+        $router->post('make-payment/{loan}', 'MakePaymentController')->name('make-payment');
     });

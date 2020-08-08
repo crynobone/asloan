@@ -11,6 +11,9 @@
               Loan Amount
             </th>
             <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              Outstanding Amount
+            </th>
+            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Loan Due Amount
             </th>
             <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -30,21 +33,35 @@
               {{ App\present_money($loan->total) }}
             </td>
             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+              {{ App\present_money($loan->outstanding()) }}
+            </td>
+            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
               {{ App\present_money($loan->due_total) }}
             </td>
             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-              {{ $loan->due_at->format('jS \\of F Y') }}
+              @if (is_null($loan->completed_at))
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-yellow-100 text-yellow-800">
+                {{ $loan->due_at->format('jS \\of F Y') }}
+              </span>
+              @else
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-teal-100 text-teal-800">
+                Completed on {{ $loan->completed_at->format('jS \\of F Y') }}
+              </span>
+              @endif
             </td>
             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-              <!--
-              <a href="#" class="text-indigo-600 hover:text-indigo-900">Make Payment</a>
-            -->
+              <form method="POST" action="{{ route('make-payment', [$loan]) }}">
+                @csrf
+                <input type="hidden" name="total" value="{{ App\present_money($loan->due_total, false) }}">
+                <input type="hidden" name="currency" value="{{ $loan->currency }}">
+                <button type="submit" class="text-indigo-600 hover:text-indigo-900">Make Payment</button>
+              </form>
             </td>
           </tr>
           @endforeach
           @else
           <tr class="bg-white">
-            <td colspan="5" class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+            <td colspan="6" class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
               <span class="inline-flex">You have no loan at the moment, Want to </span>
               <span class="inline-flex rounded-md shadow-sm">
                 <a href="{{ route('apply-loan') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200 transition ease-in-out duration-150">

@@ -3,3 +3,8 @@
   {{ session('status') }}
 </div>
 @endif
+@if (session('error'))
+<div class="text-sm border border-t-8 rounded text-red-700 border-red-600 bg-red-100 px-3 py-4 mb-4" role="alert">
+  {{ session('error') }}
+</div>
+@endif

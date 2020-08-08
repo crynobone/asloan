@@ -23,7 +23,7 @@ class ApplyLoan
         ?int $paymentInterval = null
     ): Loan {
         if (\is_null($termStartedAt)) {
-            $termStartedAt = Carbon::now();
+            $termStartedAt = Carbon::today();
         }
 
         $this->validateTermPeriod($termStartedAt, $termEndedAt);

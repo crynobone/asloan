@@ -25,9 +25,9 @@ class LoanApplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => ['required', 'min:10'],
-            'total' => ['required', new Money()],
-            'currency' => ['required'],
+            'description' => ['required', 'min:5'],
+            'total' => ['required', 'numeric', new Money()],
+            'currency' => ['filled'],
             'term_ended_at' => ['required', 'date', 'after:tomorrow'],
         ];
     }

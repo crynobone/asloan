@@ -36,7 +36,7 @@ class ApplyLoanTest extends TestCase
         $this->assertSame($user, $loan->getRelation('customer'));
         $this->assertSame(450000, $loan->amount);
         $this->assertSame('SGD', $loan->currency);
-        $this->assertSame(Carbon::now()->toDatetimeString(), $loan->term_started_at->toDatetimeString());
+        $this->assertSame(Carbon::today()->toDatetimeString(), $loan->term_started_at->toDatetimeString());
         $this->assertSame($termEndedAt->toDatetimeString(), $loan->term_ended_at->toDatetimeString());
         $this->assertSame('I need a loan to repay my debt', $loan->description);
     }

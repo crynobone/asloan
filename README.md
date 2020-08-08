@@ -39,6 +39,8 @@ Which going to output similar to following, you can access to page using the gen
 
 ## User Stories
 
+Below are the user stories that I have covered in the application, also you can view the [database diagram here](ttps://drawsql.app/orchestra-platform/diagrams/loan-application/embed).
+
 ### Loan Applications
 
 * User can apply a loan.
@@ -72,4 +74,4 @@ Which going to output similar to following, you can access to page using the gen
 * Application shouldn't update `due_amount` and `due_at`.
 * Application need to ensure Loan has `completed_at`.
 
-<iframe width="100%" height="500px" style="box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); border-radius:15px;" allowtransparency="true" allowfullscreen="true" scrolling="no" title="Embedded DrawSQL IFrame" frameborder="0" src="https://drawsql.app/orchestra-platform/diagrams/loan-application/embed"></iframe>
+

@@ -80,7 +80,7 @@ class LoanTest extends TestCase
     }
 
     /** @test */
-    public function it_can_calculate_current_loan_outstanding_hwne_no_repayment_has_been_made()
+    public function it_can_calculate_current_loan_outstanding_when_no_repayment_has_been_made()
     {
         $loan = \factory(Loan::class)->create([
             'amount' => 120000,

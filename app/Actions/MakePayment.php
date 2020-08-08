@@ -6,6 +6,7 @@ use App\Loan;
 use App\Repayment;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Money\Money;
 
@@ -14,9 +15,14 @@ class MakePayment
     /**
      * Make payment to a loan.
      */
-    public function __invoke(Loan $loan, Money $total, string $description, ?CarbonInterface $occuredAt = null)
+    public function __invoke(Loan $loan, string $description, Money $total, ?CarbonInterface $occuredAt = null)
     {
-        $this->validatePayment($loan, $total);
+        $fullSettlement = false;
+        $outstanding = $loan->outstanding();
+
+        $this->validatePayment($loan, $total, $outstanding);
+
+        $fullSettlement = $total->equals($outstanding);
 
         if (\is_null($occuredAt)) {
             $occuredAt = Carbon::now();
@@ -29,7 +35,17 @@ class MakePayment
             'occured_at' => $occuredAt,
         ]);
 
-        $repayment->saveOrFail();
+        DB::transaction(function () use ($loan, $repayment, $fullSettlement) {
+            $repayment->save();
+
+            if ($fullSettlement === true) {
+                $loan->markFullSettlementFrom($repayment);
+            } else {
+                $loan->syncDues();
+            }
+
+            $loan->save();
+        });
 
         return $repayment->setRelation('loan', $loan);
     }
@@ -39,13 +55,17 @@ class MakePayment
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    protected function validatePayment(Loan $loan, Money $total): void
+    protected function validatePayment(Loan $loan, Money $total, Money $outstanding): void
     {
+        if ($outstanding->isZero()) {
+            throw ValidationException::withMessages(['outstanding' => ['Unable to accept payment for full settlement loan']]);
+        }
+
         if (((string) $total->getCurrency()) !== $loan->currency) {
             throw ValidationException::withMessages(['total' => ['Unable to accept payment currency different from loan currency']]);
         }
 
-        if ($total->greaterThan($loan->outstanding())) {
+        if ($total->greaterThan($outstanding)) {
             throw ValidationException::withMessages(['total' => ['Unable to accept payment amount higher than outstanding amount']]);
         }
     }

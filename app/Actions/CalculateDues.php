@@ -18,13 +18,13 @@ class CalculateDues
     /**
      * Calculate dues on a loan.
      */
-    public function __invoke(Loan $loan): array
+    public function __invoke(Loan $loan, ?CarbonInterface $currentDueDate): array
     {
         $weeks = $loan->term_started_at->diffInWeeks($loan->term_ended_at);
         $dueDay = $loan->term_ended_at->dayOfWeek;
 
-        $nextDueDate = $loan->due_at instanceof CarbonInterface
-            ? $loan->due_at->copy()->next($dueDay)
+        $nextDueDate = $currentDueDate instanceof CarbonInterface
+            ? $currentDueDate->copy()->next($dueDay)
             : $loan->term_started_at->copy()->next($dueDay);
 
         if ($loan->term_started_at->diffInDays($nextDueDate) < self::MINIMUM_DAYS_BEFORE_DUE) {

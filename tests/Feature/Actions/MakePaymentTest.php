@@ -31,7 +31,7 @@ class MakePaymentTest extends TestCase
 
         $payment = Money::SGD(20000);
 
-        $repayment = (new MakePayment())($loan, $payment, 'Test user can make repayment');
+        $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment);
 
         $this->assertInstanceOf(Repayment::class, $repayment);
         $this->assertSame(20000, $repayment->amount);
@@ -55,7 +55,7 @@ class MakePaymentTest extends TestCase
 
         $payment = Money::SGD(100000);
 
-        $repayment = (new MakePayment())($loan, $payment, 'Test user can make repayment');
+        $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment);
 
         $this->assertInstanceOf(Repayment::class, $repayment);
         $this->assertSame(100000, $repayment->amount);
@@ -79,7 +79,7 @@ class MakePaymentTest extends TestCase
 
         $payment = Money::SGD(20000);
 
-        $repayment = (new MakePayment())($loan, $payment, 'Test user can make repayment', $occuredAt);
+        $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment, $occuredAt);
 
         $this->assertInstanceOf(Repayment::class, $repayment);
         $this->assertSame(20000, $repayment->amount);
@@ -104,7 +104,7 @@ class MakePaymentTest extends TestCase
         $payment = Money::USD(20000);
 
         try {
-            $repayment = (new MakePayment())($loan, $payment, 'Test user can make repayment', $occuredAt);
+            $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment, $occuredAt);
 
             $this->fail('The test passes validation when it should have failed.');
         } catch (ValidationException $e) {
@@ -131,7 +131,7 @@ class MakePaymentTest extends TestCase
         $payment = Money::SGD(120000);
 
         try {
-            $repayment = (new MakePayment())($loan, $payment, 'Test user can make repayment', $occuredAt);
+            $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment, $occuredAt);
 
             $this->fail('The test passes validation when it should have failed.');
         } catch (ValidationException $e) {

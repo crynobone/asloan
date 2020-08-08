@@ -32,6 +32,16 @@ $factory->state(Loan::class, '2-weeks', function ($faker) {
     ];
 });
 
+$factory->state(Loan::class, '3-weeks', function ($faker) {
+    $termStarted = Carbon::today();
+    $termEnded = $termStarted->copy()->addDays(21);
+
+    return [
+        'term_started_at' => $termStarted,
+        'term_ended_at' => $termEnded,
+    ];
+});
+
 
 $factory->state(Loan::class, '4-weeks', function ($faker) {
     $termStarted = Carbon::today();

@@ -19,10 +19,7 @@ class LoanObserver
             $loan->term_started_at = Carbon::now();
         }
 
-        $dues = \app(CalculateDues::class)($loan);
-
-        $loan->due_total = $dues['nextDueAmount'];
-        $loan->due_at = $dues['nextDueDate'];
+        $loan->syncDues();
     }
 
     /**

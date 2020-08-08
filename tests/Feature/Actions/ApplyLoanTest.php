@@ -90,7 +90,7 @@ class ApplyLoanTest extends TestCase
                 $termEndedAt
             );
 
-            $this->fail('The loan creation passes validation when it should have failed.');
+            $this->fail('The test passes validation when it should have failed.');
         } catch (ValidationException $e) {
             $this->assertEquals(
                 'Loan amount should be higher than 0',
@@ -120,7 +120,7 @@ class ApplyLoanTest extends TestCase
                 $termStartedAt
             );
 
-            $this->fail('The loan creation passes validation when it should have failed.');
+            $this->fail('The test passes validation when it should have failed.');
         } catch (ValidationException $e) {
             $this->assertEquals(
                 'Term start date should be less than term end date',

@@ -30,7 +30,7 @@ class CalculateDuesTest extends TestCase
             ]);
         });
 
-        $dues = (new CalculateDues())($loan);
+        $dues = (new CalculateDues())($loan, null);
 
         $this->assertSame($weeks, $dues['weeks']);
         $this->assertSame($nextDueAmount, $dues['nextDueAmount']->getAmount());

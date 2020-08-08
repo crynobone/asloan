@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Actions\CalculateDues;
+use App\Actions\MakePayment;
 use App\Observers\LoanObserver;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Money\Currency;
 use Money\Money;
@@ -83,5 +86,39 @@ class Loan extends Model
             ->sum('amount');
 
         return new Money($amount, new Currency($this->currency));
+    }
+
+    /**
+     * Make payment.
+     */
+    public function syncDues(): void
+    {
+        $dues = \app(CalculateDues::class)($this, $this->due_at);
+
+        $this->due_total = $dues['nextDueAmount'];
+        $this->due_at = $dues['nextDueDate'];
+    }
+
+    /**
+     * Make payment.
+     */
+    public function makePayment(
+        string $description,
+        Money $total,
+        ?CarbonInterface $occuredAt = null
+    ): Repayment {
+        $makePayment = \app(MakePayment::class);
+
+        return $makePayment($this, $description, $total, $occuredAt);
+    }
+
+    /**
+     * Mark full settlement.
+     */
+    public function markFullSettlementFrom(Repayment $repayment): void
+    {
+        $this->due_total = new Money('0', new Currency($this->currency));
+        $this->due_at = null;
+        $this->completed_at = $repayment->occured_at->copy();
     }
 }

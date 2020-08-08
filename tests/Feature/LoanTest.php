@@ -92,4 +92,48 @@ class LoanTest extends TestCase
         $this->assertSame('120000', $outstanding->getAmount());
         $this->assertSame($loan->currency, (string) $outstanding->getCurrency());
     }
+
+    /** @test */
+    public function it_can_calculate_update_dues_after_a_payment()
+    {
+        TestTime::freeze('Y-m-d', '2019-08-01');
+
+        $loan = \factory(Loan::class)->state('3-weeks')->create([
+            'amount' => 100000,
+            'currency' => 'SGD',
+        ]);
+
+        $outstanding = $loan->outstanding();
+
+        $this->assertSame(33334, $loan->due_amount);
+        $this->assertSame('2019-08-08', $loan->due_at->toDateString());
+
+        $repayment = $loan->makePayment('Test making a payment', $loan->due_total, $loan->due_at);
+
+        $this->assertTrue($loan->wasChanged('due_amount'));
+        $this->assertTrue($loan->wasChanged('due_at'));
+
+        $this->assertSame(33333, $loan->due_amount);
+        $this->assertSame('2019-08-15', $loan->due_at->toDateString());
+    }
+
+    /** @test */
+    public function it_can_should_make_as_full_settlement()
+    {
+        TestTime::freeze('Y-m-d', '2019-08-01');
+
+        $loan = \factory(Loan::class)->create([
+            'amount' => 100000,
+            'currency' => 'SGD',
+        ]);
+
+        $paymentDate = Carbon::now()->addDays(4);
+
+        $repayment = $loan->makePayment('Test making a payment', $loan->outstanding(), $paymentDate);
+
+        $this->assertSame(100000, $loan->amount);
+        $this->assertSame(0, $loan->due_amount);
+        $this->assertNull($loan->due_at);
+        $this->assertSame($paymentDate->toDatetimeString(), $loan->completed_at->toDatetimeString());
+    }
 }

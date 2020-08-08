@@ -4,14 +4,32 @@ namespace Tests\Feature;
 
 use App\Loan;
 use App\Repayment;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Money\Money;
+use Spatie\TestTime\TestTime;
 use Tests\TestCase;
 
 class LoanTest extends TestCase
 {
     use RefreshDatabase;
+
+
+    /** @test */
+    public function it_properly_set_dues()
+    {
+        TestTime::freeze('Y-m-d', '2020-08-01');
+
+        $loan = \factory(Loan::class)->create([
+            'amount' => 400000,
+            'term_started_at' => Carbon::today(),
+            'term_ended_at' => Carbon::createFromFormat('Y-m-d', '2020-08-20'),
+        ]);
+
+        $this->assertSame(133334, $loan->due_amount);
+        $this->assertSame('2020-08-06', $loan->due_at->toDateString());
+    }
 
     /** @test */
     public function it_can_calculate_current_loan_installment()

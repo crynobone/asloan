@@ -27,7 +27,7 @@ class ApplyLoanTest extends TestCase
         $termEndedAt = Carbon::now()->addDays(30);
         $total = Money::SGD(450000);
 
-        $loan = \app(ApplyLoan::class)(
+        $loan = (new ApplyLoan())(
             $user,
             'I need a loan to repay my debt',
             $total,
@@ -53,7 +53,7 @@ class ApplyLoanTest extends TestCase
         $termEndedAt = Carbon::now()->addDays(30);
         $total = Money::SGD(450000);
 
-        $loan = \app(ApplyLoan::class)(
+        $loan = (new ApplyLoan())(
             $user,
             'I need a loan to repay my debt',
             $total,
@@ -85,7 +85,7 @@ class ApplyLoanTest extends TestCase
         $total = Money::SGD($amount);
 
         try {
-            $loan = \app(ApplyLoan::class)(
+            $loan = (new ApplyLoan())(
                 $user,
                 'I need a loan to repay my debt',
                 $total,
@@ -114,7 +114,7 @@ class ApplyLoanTest extends TestCase
         $total = Money::SGD(450000);
 
         try {
-            $loan = \app(ApplyLoan::class)(
+            $loan = (new ApplyLoan())(
                 $user,
                 'I need a loan to repay my debt',
                 $total,
@@ -142,7 +142,7 @@ class ApplyLoanTest extends TestCase
         $termEndedAt = Carbon::now()->addDays(30);
         $total = Money::SGD(450000);
 
-        $secondLoan = \app(ApplyLoan::class)(
+        $secondLoan = (new ApplyLoan())(
             $user,
             'I need a loan to repay my debt',
             $total,

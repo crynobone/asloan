@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Observers\LoanObserver;
 use Illuminate\Database\Eloquent\Model;
 use Money\Currency;
 use Money\Money;
@@ -29,6 +30,16 @@ class Loan extends Model
         'term_ended_at' => 'datetime',
         'completed_at' => 'datetime',
     ];
+
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::observe(new LoanObserver());
+    }
 
     /**
      * Loan belongs to a User (customer).

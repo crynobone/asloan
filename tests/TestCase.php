@@ -12,12 +12,12 @@ abstract class TestCase extends BaseTestCase
     /**
      * Expect validation exception assert.
      */
-    public function expectValidationException(callable $given, callable $handleException): void
+    public function expectValidationException(callable $given, array $expectedErrors): void
     {
         try {
             $given();
         } catch (ValidationException $exception) {
-            $handleException($exception);
+            (new JsonInspector($exception->errors()))->assertFragment($expectedErrors);
 
             return;
         }

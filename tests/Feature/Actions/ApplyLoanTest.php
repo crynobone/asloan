@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Money\Money;
 use Spatie\TestTime\TestTime;
+use Tests\JsonInspector;
 use Tests\TestCase;
 
 class ApplyLoanTest extends TestCase
@@ -89,12 +90,9 @@ class ApplyLoanTest extends TestCase
                 $total,
                 $termEndedAt
             );
-        }, function (ValidationException $e) {
-            $this->assertEquals(
-                'Loan amount should be higher than 0',
-                $e->validator->errors()->first('total')
-            );
-        });
+        }, [
+            'total' => ['Loan amount should be higher than 0'],
+        ]);
     }
 
     /** @test */

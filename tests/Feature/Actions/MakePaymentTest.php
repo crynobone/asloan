@@ -104,12 +104,9 @@ class MakePaymentTest extends TestCase
 
         $this->expectValidationException(function () use ($loan, $payment, $occuredAt) {
             $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment, $occuredAt);
-        }, function (ValidationException $e) {
-            $this->assertEquals(
-                'Unable to accept payment currency different from loan currency',
-                $e->validator->errors()->first('total')
-            );
-        });
+        }, [
+            'total' => ['Unable to accept payment currency different from loan currency']
+        ]);
     }
 
     /** @test */
@@ -128,11 +125,8 @@ class MakePaymentTest extends TestCase
 
         $this->expectValidationException(function () use ($loan, $payment, $occuredAt) {
             $repayment = (new MakePayment())($loan, 'Test user can make repayment', $payment, $occuredAt);
-        }, function (ValidationException $e) {
-            $this->assertEquals(
-                'Unable to accept payment amount higher than outstanding amount',
-                $e->validator->errors()->first('total')
-            );
-        });
+        }, [
+            'total' => ['Unable to accept payment amount higher than outstanding amount']
+        ]);
     }
 }
